@@ -62,8 +62,9 @@ const ItineraryForm = () => {
     onSuccess: (data) => {
       console.log(data);
       updateDestinationsMutation.mutate({
-        data: data.data.data,
+        data: data.data.itinerary,
         bearer: state.user?.accessToken || "",
+        itineraryId: itinerariesId,
       });
     },
     onError: (error: any) => {
