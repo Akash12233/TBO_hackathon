@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
-import {addDestination_to_Itinerary} from "../controllers/server/itinerary.server.controller.js";
+import { addDestination_to_Itinerary } from "../controllers/server/itinerary.server.controller.js";
 import axios from 'axios';
-import { getDestinations_by_itinerary, getitinerary, updateDestinations_to_Itinerary } from '../utils/fetchData.js';
+import { addHotel_to_Itinerary, getDestinations_by_itinerary, getitinerary, updateDestinations_to_Itinerary } from '../utils/fetchData.js';
 let itineraryData = [
     [
         {
@@ -306,19 +306,20 @@ const socketConfig = (server) => {
 
     io.on("connection", (socket) => {
         console.log("A user connected:", socket.id);
-        socket.on("joinRoom", async(roomId) => {
+        let hotelData;
+        socket.on("joinRoom", async (roomId) => {
             socket.join(roomId);
             const dataItinerayInfo = await getitinerary(roomId);
             const dataItineraryDesctinations = await getDestinations_by_itinerary(roomId);
-            console.log(dataItineraryDesctinations, dataItinerayInfo, "socket");
-            
+
             socket.emit("initialData", {
                 itineraryInfo: dataItinerayInfo,
                 itineraryDestinations: dataItineraryDesctinations,
+                hotel: hotelData,
             });
         })
 
-        
+
 
         // Listen for updates
         socket.on("updateData", (updatedData) => {
@@ -326,12 +327,36 @@ const socketConfig = (server) => {
             socket.broadcast.emit("updatedData", itineraryData);
         });
 
+        socket.on("addHotel", async (data) => {
+            console.log(data, "addHotel");
+            hotelData = data.data;
+            socket.broadcast.emit("hotelAdded", hotelData);
+        });
+        socket.on("removeHotel", async (data) => {
+            console.log(data, "removeHotel");
+            hotelData = data.data;
+            socket.broadcast.emit("hotelRemoved", data);
+        });
         socket.on("saveData", async (updatedData) => {
-           const {itinerary, itineraryId} = updatedData;
+            const { itinerary, itineraryId, hotels } = updatedData;
+            console.log(itinerary, itineraryId);
 
-           
-            const data = await updateDestinations_to_Itinerary( itineraryId,itinerary);
-            socket.broadcast.emit("savedData", data);
+            const data = await updateDestinations_to_Itinerary(itineraryId, itinerary);
+            const hotelAdd = await addHotel_to_Itinerary({
+                itineraryId,
+                HotelName: hotels.HotelName,
+                HotelRating: hotels.HotelRating,
+                Address: hotels.Address,
+                CountryName: hotels.CountryName,
+                CountryCode: hotels.CountryCode,
+                CityName: hotels.CityName,
+                TotalFare: hotels.Rooms[0].TotalFare,
+                TotalTax: hotels.Rooms[0].TotalTax,
+                startDate: new Date().toISOString().split("T")[0],
+                endDate: new Date().toISOString().split("T")[0] + 7,
+
+            });
+            socket.broadcast.emit("savedData", { data, hotelAdd });
         });
 
         socket.on("disconnect", () => {
