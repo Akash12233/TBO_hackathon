@@ -339,7 +339,7 @@ const socketConfig = (server) => {
         });
         socket.on("saveData", async (updatedData) => {
             const { itinerary, itineraryId, hotels, totalFare, totalTax } = updatedData;
-            console.log(itinerary, itineraryId, hotels);
+            console.log(itinerary, itineraryId, hotels, "saveData");
             const data = await updateDestinations_to_Itinerary(itineraryId, itinerary);
             if(hotels){
                 const hotelAdd = await addHotel_to_Itinerary({
@@ -352,11 +352,12 @@ const socketConfig = (server) => {
                     CityName: hotels.CityName,
                     TotalFare: totalFare,
                     TotalTax: totalTax,
-                    latitude: hotels.Latitude,
-                    longitude: hotels.Longitude,
+                    latitude: hotels.Latitude || 1,
+                    longitude: hotels.Longitude || 1,
                     startDate: new Date().toISOString().split("T")[0],
                     endDate: new Date().toISOString().split("T")[0] + 7,
                 });
+                console.log(hotelAdd, "hotelAdd");
                 socket.broadcast.emit("savedData", { data, hotelAdd });
             }else{
 

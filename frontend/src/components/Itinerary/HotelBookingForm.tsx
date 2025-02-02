@@ -78,7 +78,7 @@ const HotelBookingForm = ({ openHotelModal, closeModal, setFetchedHotels, setIsL
     return (
         openHotelModal && (
             <div className="fixed inset-0 flex items-center justify-center min-h-screen min-w-screen overflow-y-auto  bg-gray-500 pt-32 bg-opacity-50">
-                <div className="bg-white p-6 rounded-lg w-1/3">
+                <div className="bg-white p-6 rounded-lg lg:w-1/3">
                     <h2 className="text-xl font-semibold mb-4">Add New Hotel</h2>
 
                     <div className="mb-4">

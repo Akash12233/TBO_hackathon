@@ -198,11 +198,13 @@ const [amountSpent, setAmountSpent] = useState<number>(0); // Amount spent so fa
   
     const locationCount = day.filter((item) => item.type !== "Restaurant").length;
     const restaurantCount = day.filter((item) => item.type === "Restaurant").length;
-  
+    console.log(locationCount, "locationCount", restaurantCount, "restaurantCount", day, "day", placeType, "placeType");
+    
     if (placeType !== "Restaurant" && locationCount < MAX_LOCATIONS_PER_DAY) {
       const newItem: Item = {
         ...newDestination,
         id: Date.now(),
+        banner: "/placeholder.jpg",
         costPerDay: newDestination.costPerDay || 0, // Ensure cost is included
       };
   
@@ -221,6 +223,7 @@ const [amountSpent, setAmountSpent] = useState<number>(0); // Amount spent so fa
         type: "Restaurant",
         costPerDay: newDestination.costPerDay || 0, // Ensure cost is included
       };
+  console.log(newItem, "newItem");
   
       const updatedDay = [...day, newItem];
       const updatedData = [...data];
@@ -272,7 +275,7 @@ const [amountSpent, setAmountSpent] = useState<number>(0); // Amount spent so fa
 
   const saveChanges = () => {
     console.log(data, "data", hotel);
-    
+   
     socket.emit("saveData", {
       itinerary: data, itineraryId, hotels: hotel, totalFare: hotel?.TotalFare || hotel?.Rooms[0].TotalFare || 0, totalTax: hotel?.TotalTax || hotel?.Rooms[0].TotalTax || 0
     });
@@ -298,7 +301,7 @@ const [amountSpent, setAmountSpent] = useState<number>(0); // Amount spent so fa
   <div className="flex justify-between">
     <p className="text-lg">Total Budget: ${totalBudget}</p>
     <p className="text-lg">Amount Spent: ${amountSpent}</p>
-    <p className="text-lg">Remaining Budget: ${totalBudget - amountSpent}</p>
+    <p className="text-lg">Remaining Budget: ${(totalBudget - amountSpent).toFixed(2)}</p>
   </div>
 </div>
       <div className="z-50  top-36 right-4 fixed">
@@ -418,7 +421,7 @@ const [amountSpent, setAmountSpent] = useState<number>(0); // Amount spent so fa
       {/* Add Item Modal */}
       {isAddModalOpen && (
         <div className="fixed inset-0 flex pt-32 min-h-screen overflow-y-auto justify-center bg-gray-500 bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg w-1/3">
+          <div className="bg-white p-6 rounded-lg w-1/3 h-fit">
             <h2 className="text-xl font-semibold mb-4">Add New Destination</h2>
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700">
@@ -438,7 +441,7 @@ const [amountSpent, setAmountSpent] = useState<number>(0); // Amount spent so fa
                   )}
                 {data[dayIndex].filter((item) => item.type === "Restaurant").length <
                   MAX_RESTAURANTS_PER_DAY && (
-                    <option value="restaurant">Restaurant</option>
+                    <option value="Restaurant">Restaurant</option>
                   )}
               </select>
             </div>
@@ -577,7 +580,7 @@ const [amountSpent, setAmountSpent] = useState<number>(0); // Amount spent so fa
               </>
             )}
 
-            {placeType === "restaurant" && (
+            {placeType === "Restaurant" && (
               <>
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700">

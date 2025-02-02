@@ -44,10 +44,10 @@ def get_location_image(location):
             image_url = data["results"][0]["urls"]["regular"]
             return image_url
         else:
-            return ""
+            return "/placeholder.jpg"
 
     except requests.exceptions.RequestException as e:
-        return ""
+        return "/placeholder.jpg"
 
 
 # Load the regressor model

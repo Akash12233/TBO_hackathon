@@ -40,8 +40,8 @@ export const sortItems = (items: Item[]) => {
 
   const firstTwoWithId = withId.slice(0, 2);
   const remainingWithId = withId.slice(2);
-  const firstRemainingWithOutId = withoutId.slice(0, 1);
-  const secondRemainingWithOutId = withoutId.slice(1, 2);
+  const firstRemainingWithOutId = withoutId.slice(0, 1) || [];
+  const secondRemainingWithOutId = withoutId.slice(1, 2) || [];
 
   return [
     ...firstTwoWithId,

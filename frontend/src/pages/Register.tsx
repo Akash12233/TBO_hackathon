@@ -39,19 +39,7 @@ const Register = () => {
         mutation.mutate(data, {
             onSuccess: (data) => {
                 console.log('Account created successfully!', data);
-                localStorage.setItem('accessToken', data.data.data.accessToken);
-                localStorage.setItem('refreshToken', data.data.data.refreshToken);
-                localStorage.setItem('email', data.data.data.email);
-                localStorage.setItem('username', data.data.data.username);
-                dispatch({
-                    type: "LOGIN",
-                    payload: {
-                        username: data.data.data.username,
-                        email: data.data.data.email,
-                        accessToken: data.data.accessToken,
-                        refreshToken: data.data.refreshToken,
-                    }
-                })
+                navigate('/login');
                 toast.success("Account created successfully!");
             },
             onError: (error: any) => {
@@ -73,7 +61,7 @@ const Register = () => {
     return (
         <div className='bg-gradient-to-b from-sky-900'>
             <section className=" min-h-screen flex items-center justify-center">
-                <div className="w-full max-w-md bg-cyan-800 rounded-lg shadow  ">
+                <div className="w-full max-w-md bg-cyan-800 rounded-lg shadow pt-10 ">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-white md:text-2xl ">
                             {'Create an account'}

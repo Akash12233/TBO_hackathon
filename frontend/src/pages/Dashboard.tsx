@@ -83,6 +83,7 @@ const Dashboard = () => {
     mutationFn: deleteItinerary,
     onSuccess: (data) => {
       console.log("deleted", data.id);
+      setItineraries(itineraries.filter((itinerary) => itinerary._id !== data.id));
       refetch();
       toast.success("Itinerary deleted successfully!");
     },

@@ -112,7 +112,7 @@ export const updateDestinations_to_Itinerary = async (itineraryId, itinerary) =>
 };
 
 export const addHotel_to_Itinerary = async ({
-  itineraryId, HotelName,
+  itineraryId,HotelName,
   HotelRating,
   Address,
   CountryName,
@@ -134,6 +134,20 @@ export const addHotel_to_Itinerary = async ({
   }
 
 
+  const itinerary = await Itinerary.findById(
+    itineraryId 
+  );
+
+  if (!itinerary) {
+    throw new ApiError(500, "Something went wrong while adding hotel!");
+  }
+  
+  const hotel = itinerary.hotels.find((hotel) => hotel.HotelName === HotelName);
+
+  if (hotel) {
+    return "Hotel already exists";
+  }
+
   const newHotel = await Itinerary.findByIdAndUpdate(
     itineraryId,
     {
@@ -151,15 +165,15 @@ export const addHotel_to_Itinerary = async ({
           endDate,
           longitude,
           latitude
-        }
-      }
-    }
+        },
+      },
+    },
+    { new: true } // Return the updated document
   );
-
-  if (!newHotel) {
+  
+  if(!newHotel){
     throw new ApiError(500, "Something went wrong while adding hotel!");
   }
-
   return "Hotel added Successfully";
 
 };
