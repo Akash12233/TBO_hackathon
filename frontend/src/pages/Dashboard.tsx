@@ -46,7 +46,7 @@ const Header = ({
 };
 interface Itinerary {
   _id: string;
-  days: number;
+  Days: number;
   budget: number;
   location: string;
   permissions: { userId: string; access: string }[];
@@ -73,7 +73,6 @@ const Dashboard = () => {
     data: itinerary,
     isLoading,
     refetch,
-    error,
   } = useQuery({
     queryKey: ["GetItineraries"],
     queryFn: () => getItinerariesByUser(state.user?.accessToken || ""),
@@ -100,13 +99,13 @@ const Dashboard = () => {
     <div className="flex bg-gradient-to-b from-sky-900 pt-32">
       <Sidebar />
       <div className="flex-1 flex flex-col">
-        <Header user={state.user?.name || ""} handleLogout={hanldeLogout} />
+        <Header user={state.user?.username || ""} handleLogout={hanldeLogout} />
         <main className="p-6 space-y-6">
           <section className="bg-white p-6 rounded-lg">
             <h3 className="text-xl font-semibold mb-4">User Information</h3>
             <div className="space-y-2">
               <p>
-                <span className="font-bold">Name:</span> {state.user?.name}
+                <span className="font-bold">Name:</span> {state.user?.username}
               </p>
               <p>
                 <span className="font-bold">Email:</span> {state.user?.email}
@@ -142,7 +141,7 @@ const Dashboard = () => {
                   <tr key={itinerary._id}>
                     <td className="p-3">{itinerary.title}</td>
                     <td className="p-3">{itinerary.location}</td>
-                    <td className="p-3">{itinerary.days}</td>
+                    <td className="p-3">{itinerary.Days}</td>
                     <td className="p-3">{itinerary.budget}</td>
                     <td className="p-3">{itinerary.createdAt}</td>
                     <td className="p-3">{itinerary.updatedAt}</td>
@@ -154,13 +153,13 @@ const Dashboard = () => {
                           bearer: state.user?.accessToken || ""
                         })}
                       >
-                        Delete  
+                        Delete
                       </button>
                     </td>
                     <td className="p-3">
                       <button
                         className="bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 text-white"
-                        onClick={ ()=> navigate(`/itinerary/${itinerary._id}`)}
+                        onClick={() => navigate(`/itinerary/${itinerary._id}`)}
                       >
                         Edit
                       </button>
