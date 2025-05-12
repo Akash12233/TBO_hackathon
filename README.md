@@ -41,6 +41,16 @@ This project is built using multiple technologies across different layers, ensur
 - **Cloud Services**: WebSocket.IO
 - **DataSets**: ChatGPT, Unsplash
 
+## Website Look
+![image](https://github.com/user-attachments/assets/e0c9ea8c-78af-4e20-92e9-9b4f8ce47c00)
+![image (1)](https://github.com/user-attachments/assets/b767d71d-8f42-4371-befd-c2dc365b4eff)
+![image (2)](https://github.com/user-attachments/assets/b24ac226-53ec-480f-82ff-591ebbccfdde)
+![image (3)](https://github.com/user-attachments/assets/345f5880-72fa-40d2-b215-fc5f56579a16)
+![image (4)](https://github.com/user-attachments/assets/a4cb3f2c-b04b-4c22-a85e-31c9f47335fd)
+![image (5)](https://github.com/user-attachments/assets/5003b6fe-4803-4bf6-8be4-747cb9767af4)
+
+
+
 ## Installation
 
 ### Backend (Python)
